@@ -1,12 +1,26 @@
 import pytest
 from fastapi.testclient import TestClient
+from unittest.mock import patch
 from app.main import app
 
 @pytest.fixture
 def client():
-    """Fixture qui charge FastAPI et le modèle YOLO uniquement pour les tests."""
-    with TestClient(app) as c:
-        yield c
+    """Fixture qui intercepte le chargement du modèle et injecte un Mock (simulateur)."""
+    # On bloque l'initialisation du vrai modèle YOLO dans le fichier main
+    with patch("app.main.ObjectDetector") as MockDetector:
+        # On configure le faux modèle pour qu'il renvoie un résultat factice
+        mock_instance = MockDetector.return_value
+        mock_instance.predict.return_value = [
+            {
+                "class_name": "person",
+                "confidence": 0.99,
+                "box": {"x_min": 10.0, "y_min": 20.0, "x_max": 100.0, "y_max": 200.0}
+            }
+        ]
+        
+        # Le TestClient démarre maintenant instantanément sans charger PyTorch
+        with TestClient(app) as c:
+            yield c
 
 def test_health_check(client):
     response = client.get("/health")
