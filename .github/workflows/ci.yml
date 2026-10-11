@@ -1,0 +1,15 @@
+name: MLOps Vision CI
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - run: sudo apt-get update && sudo apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev
+    - run: pip install -r requirements.txt
+    - run: pytest tests/
