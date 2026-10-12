@@ -1,2 +1,2 @@
-# 👁️ MLOps Vision API : YOLOv8 & FastAPI
-API RESTful asynchrone pour l'inférence YOLOv8. Architecture orientée production avec typage Pydantic, gestion du lifespan pour le modèle, et Dockerfile optimisé pour OpenCV.
+# 👁️ MLOps Vision API: YOLOv8 & FastAPI
+Asynchronous RESTful API for YOLOv8 inference. Production-ready architecture with Pydantic typing, model lifecycle management, and a Dockerfile optimized for OpenCV.
